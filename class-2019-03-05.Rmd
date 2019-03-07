@@ -1,0 +1,38 @@
+---
+title: "The world gets better every year"
+author: "Seeam S. Noor"
+date: "March 7, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE, warning = FALSE, error = FALSE, message = FALSE}
+  library(gapminder)
+  library(tidyverse)
+  library(dplyr)
+  library(gganimate)
+  library(gifski)
+  library(png)
+
+```
+
+```{r plot, warning = FALSE, error = FALSE, message = FALSE, echo = FALSE}
+  # static_plot <-
+  gapminder %>%
+  mutate(continent = fct_collapse(continent,
+                                  Asia = c("Asia","Oceania"))) %>%
+  filter(continent %in% c("Americas","Africa", "Asia")) %>%
+  group_by(continent) %>%
+  ggplot(aes(x = gdpPercap, y = lifeExp, color = continent, size = pop)) +
+  scale_x_log10(breaks = c(1000,10000),
+                labels = c("$1,000","$10,000")) +
+  geom_point(show.legend = FALSE, alpha = 0.5) +
+  facet_wrap(~continent) +
+  xlab("GDP Per Capita") +
+  ylab("Life Expectancy")
+
+
+  # static_plot +
+  #   transition_states(year,transition_length = .1, state_length = .1) +
+  #   ggtitle('The world gets better every year: {closest_state}')
+
+```
