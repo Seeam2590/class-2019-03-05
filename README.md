@@ -1,2 +1,2 @@
-# class-2019-03-05
-Repository for class Gov 1005 
+## Animated Data Analysis: The world gets better every year.
+Published here: http://rpubs.com/Seeam2590/474143 
