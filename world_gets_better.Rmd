@@ -17,26 +17,37 @@ output: html_document
 
 
 ```{r plot, warning = FALSE, error = FALSE, message = FALSE, echo = FALSE, cache = TRUE}
+  # Creating  a static plot object to which we can add animation
   static_plot <-
+  # Using the gapminder dataset which we have loaded earlier
   gapminder %>%
+  # Bring two continents into one
   mutate(continent = fct_collapse(continent,
                                   Asia = c("Asia","Oceania"))) %>%
+  # Filtering only the continents we are interested in looking at
   filter(continent %in% c("Americas","Africa", "Asia")) %>%
+  # Grouping by continents
   group_by(continent) %>%
+  # Creating a scatterplot
   ggplot(aes(x = gdpPercap, y = lifeExp, color = country, size = pop)) +
+  # Making the GDP in a log scale
   scale_x_log10(breaks = c(1000,10000),
                 labels = c("$1,000","$10,000")) +
   geom_point(show.legend = FALSE, alpha = 0.5) +
+  # Producing different plots for different continents
   facet_wrap(~continent) +
   xlab("GDP Per Capita") +
   ylab("Life Expectancy") +
   labs(caption = "Source: gapminder package") +
+  # Using a color scheme which varies with countries
   scale_color_manual(values = country_colors)
 
 
 
   static_plot +
+    # Adding animation with 'year' as different states 
      transition_time(year) +
+    # Providing a dynamic title
      labs( title = 'The World Gets Better Every Year: {frame_time}')
 
 ```
